@@ -1,0 +1,8 @@
+[build]
+  publish = "dist/front"
+  command = "ng build"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
