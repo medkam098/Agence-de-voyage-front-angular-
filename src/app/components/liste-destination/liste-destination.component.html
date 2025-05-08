@@ -13,14 +13,16 @@
       <input type="text" [(ngModel)]="searchQuery" (input)="filterDestinations()" placeholder="Search..." class="search-input">
     </div>
 
-    <!-- Name filter -->
+    <!-- Destination filter -->
     <div class="filter-container">
       <mat-form-field appearance="outline">
-        <mat-label>Filter by Name</mat-label>
-        <input matInput [(ngModel)]="selectedName" (input)="onFilterChange()" placeholder="Enter destination name">
-        <button *ngIf="selectedName" matSuffix mat-icon-button aria-label="Clear" (click)="selectedName=''; onFilterChange()">
-          <mat-icon>close</mat-icon>
-        </button>
+        <mat-label>Filter by Destination</mat-label>
+        <mat-select [(ngModel)]="selectedDestinationId" (selectionChange)="onFilterChange()">
+          <mat-option [value]="">All Destinations</mat-option>
+          <mat-option *ngFor="let destination of destinations" [value]="destination.id">
+            {{ destination.nom }}
+          </mat-option>
+        </mat-select>
       </mat-form-field>
     </div>
 

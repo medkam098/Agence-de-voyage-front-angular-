@@ -4,7 +4,7 @@
     <app-header></app-header>
     <div class="component-content">
   <div class="dashboard-container" *ngIf="!loading && stats">
-  <!-- Cartes de statistiques -->
+  <!-- Card-->
   <div class="stats-cards">
     <div class="stat-card">
       <div class="stat-header">
@@ -49,13 +49,11 @@
     </div>
   </div>
 
-  <!-- Onglets -->
   <div class="dashboard-tabs">
     <button class="tab-button" [class.active]="activeTab === 'overview'" (click)="setActiveTab('overview')">Overview</button>
     <button class="tab-button" [class.active]="activeTab === 'analytics'" (click)="setActiveTab('analytics')">Analytics</button>
   </div>
 
-  <!-- Contenu des onglets -->
   <div class="tab-content" *ngIf="activeTab === 'overview'">
     <div class="dashboard-panels">
       <!-- Recent Bookings -->

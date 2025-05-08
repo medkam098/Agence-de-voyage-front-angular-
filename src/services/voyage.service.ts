@@ -67,25 +67,20 @@ export class VoyageService {
   }
 
   updateVoyage(id: number, voyage: Voyage): Observable<Voyage> {
-    // Créer un objet avec les propriétés attendues par le backend
-    // Formater la date au format YYYY-MM-DD si elle est au format Date
+    
     let formattedDate = voyage.datevoyage;
     if (voyage.datevoyage) {
-      // Vérifier si c'est une chaîne de caractères
       if (typeof voyage.datevoyage === 'string') {
-        // Si c'est une chaîne, vérifier si c'est au format MM/DD/YYYY
         if (voyage.datevoyage.includes('/')) {
           const parts = voyage.datevoyage.split('/');
           if (parts.length === 3) {
-            // Convertir de MM/DD/YYYY à YYYY-MM-DD
             formattedDate = `${parts[2]}-${parts[0].padStart(2, '0')}-${parts[1].padStart(2, '0')}`;
           }
         }
       } else {
-        // Si ce n'est pas une chaîne, essayer de le convertir en Date
         try {
           const date = new Date(voyage.datevoyage as any);
-          formattedDate = date.toISOString().split('T')[0]; // Format YYYY-MM-DD
+          formattedDate = date.toISOString().split('T')[0]; 
         } catch (error) {
           console.error('Error formatting date:', error);
         }

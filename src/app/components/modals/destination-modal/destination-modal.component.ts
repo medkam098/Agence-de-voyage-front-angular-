@@ -22,7 +22,7 @@ export class DestinationModalComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (this.data) { // Mode édition
+    if (this.data) { 
       this.isEditMode = true;
       this.form = new FormGroup({
         id: new FormControl(this.data.id),
@@ -30,7 +30,7 @@ export class DestinationModalComponent implements OnInit {
         description: new FormControl(this.data.description, [Validators.required]),
         image: new FormControl(this.data.image, [Validators.required])
       });
-    } else { // Mode création
+    } else { 
       this.isEditMode = false;
       this.form = new FormGroup({
         id: new FormControl(0),

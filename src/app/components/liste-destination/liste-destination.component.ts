@@ -21,7 +21,7 @@ export class ListeDestinationComponent implements OnInit {
   isLoading: boolean = true;
 
   // Filter property
-  selectedName: string = '';
+  selectedDestinationId: string = '';
 
   constructor(
     private destinationService: DestinationService,
@@ -105,11 +105,11 @@ export class ListeDestinationComponent implements OnInit {
 
       const matchesTerms = terms.length === 0 || terms.every(term => destinationString.includes(term));
 
-      // Name filter
-      const matchesName = !this.selectedName ||
-                         destination.nom.toLowerCase().includes(this.selectedName.toLowerCase());
+      // Destination filter
+      const matchesDestination = !this.selectedDestinationId ||
+                               destination.id === parseInt(this.selectedDestinationId);
 
-      return matchesTerms && matchesName;
+      return matchesTerms && matchesDestination;
     });
   }
 

@@ -28,9 +28,7 @@ export class VoyageModalComponent implements OnInit {
   ngOnInit(): void {
     this.loadDestinations();
 
-    // Vérifier si nous avons des données et si nous sommes en mode édition
     if (this.data && this.data.isEditMode && this.data.voyage) {
-      // Mode édition avec données de voyage
       this.isEditMode = true;
       const voyage = this.data.voyage;
 
@@ -45,7 +43,6 @@ export class VoyageModalComponent implements OnInit {
 
       console.log('Editing voyage:', voyage);
     } else if (this.data && !this.data.isEditMode) {
-      // Mode création avec données explicites
       this.isEditMode = false;
       this.form = new FormGroup({
         id: new FormControl(0),
@@ -58,7 +55,6 @@ export class VoyageModalComponent implements OnInit {
 
       console.log('Adding new voyage');
     } else if (this.data) {
-      // Ancienne structure de données (pour compatibilité)
       this.isEditMode = true;
       this.form = new FormGroup({
         id: new FormControl(this.data.id),
@@ -71,7 +67,6 @@ export class VoyageModalComponent implements OnInit {
 
       console.log('Editing voyage (legacy format):', this.data);
     } else {
-      // Mode création sans données
       this.isEditMode = false;
       this.form = new FormGroup({
         id: new FormControl(0),
@@ -108,30 +103,25 @@ export class VoyageModalComponent implements OnInit {
     if (this.form.valid) {
       const formValues = this.form.value;
 
-      // Formater la date correctement
       let formattedDate = formValues.datevoyage;
       if (formValues.datevoyage) {
         if (typeof formValues.datevoyage === 'string') {
-          // Si c'est une chaîne, s'assurer qu'elle est au bon format
           if (formValues.datevoyage.includes('/')) {
             const parts = formValues.datevoyage.split('/');
             if (parts.length === 3) {
-              // Convertir de MM/DD/YYYY à YYYY-MM-DD
               formattedDate = `${parts[2]}-${parts[0].padStart(2, '0')}-${parts[1].padStart(2, '0')}`;
             }
           }
         } else {
-          // Si ce n'est pas une chaîne, essayer de le convertir en Date
           try {
             const date = new Date(formValues.datevoyage);
-            formattedDate = date.toISOString().split('T')[0]; // Format YYYY-MM-DD
+            formattedDate = date.toISOString().split('T')[0]; 
           } catch (error) {
             console.error('Error formatting date:', error);
           }
         }
       }
 
-      // Créer un objet voyage avec les bonnes conversions de types
       const voyage: Voyage = {
         id: formValues.id,
         destination_id: Number(formValues.destination_id),
@@ -170,7 +160,6 @@ export class VoyageModalComponent implements OnInit {
           });
       }
     } else {
-      // Marquer tous les champs comme touchés pour afficher les erreurs
       Object.keys(this.form.controls).forEach(key => {
         const control = this.form.get(key);
         control?.markAsTouched();

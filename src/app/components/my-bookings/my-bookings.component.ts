@@ -21,7 +21,6 @@ export class MyBookingsComponent implements OnInit {
   isLoading = true;
   bookingsWithDetails: any[] = [];
 
-  // Minimum days before flight date to allow cancellation
   readonly CANCELLATION_THRESHOLD_DAYS = 2;
 
   constructor(
@@ -42,19 +41,15 @@ export class MyBookingsComponent implements OnInit {
       return;
     }
 
-    // Charger les voyages et destinations d'abord
     this.voyageService.getVoyages().subscribe(voyages => {
       this.voyages = voyages;
 
       this.destinationService.getDestinations().subscribe(destinations => {
         this.destinations = destinations;
 
-        // Puis charger les réservations de l'utilisateur
         this.reservationService.getReservations().subscribe(reservations => {
-          // Filtrer les réservations pour n'afficher que celles de l'utilisateur connecté
           this.reservations = reservations.filter(r => r.idUser === this.currentUser?.id);
 
-          // Créer un tableau avec les détails complets pour chaque réservation
           this.bookingsWithDetails = this.reservations.map(reservation => {
             const voyage = this.voyages.find(v => v.id === reservation.idVoyage);
             const destination = voyage ? this.destinations.find(d => d.id === voyage.destination_id) : null;
@@ -86,9 +81,8 @@ export class MyBookingsComponent implements OnInit {
   }
 
   /**
-   * Check if a booking can be canceled based on the flight date
-   * @param voyageDate The date of the voyage
-   * @returns true if the booking can be canceled (more than 2 days before flight and not in the past), false otherwise
+   * @param voyageDate 
+   * @returns 
    */
   canCancelBooking(voyageDate: Date | null): boolean {
     if (!voyageDate) return false;
@@ -97,14 +91,12 @@ export class MyBookingsComponent implements OnInit {
     const timeDiff = voyageDate.getTime() - today.getTime();
     const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
 
-    // Cannot cancel if flight is in the past or within 2 days
     return daysDiff > this.CANCELLATION_THRESHOLD_DAYS;
   }
 
   /**
-   * Get the reason why a booking cannot be canceled
-   * @param voyageDate The date of the voyage
-   * @returns A string explaining why the booking cannot be canceled
+   * @param voyageDate 
+   * @returns 
    */
   getCancellationMessage(voyageDate: Date | null): string {
     if (!voyageDate) return "Booking cannot be canceled";
@@ -123,9 +115,8 @@ export class MyBookingsComponent implements OnInit {
   }
 
   /**
-   * Calculate the number of days until departure
-   * @param voyageDate The date of the voyage
-   * @returns The number of days until departure
+   * @param voyageDate 
+   * @returns 
    */
   getDaysUntilDeparture(voyageDate: Date): number {
     const today = new Date();
@@ -134,10 +125,8 @@ export class MyBookingsComponent implements OnInit {
   }
 
   cancelBooking(id: number): void {
-    // Find the booking
     const booking = this.bookingsWithDetails.find(b => b.id === id);
 
-    // Check if booking can be canceled
     if (!booking || !booking.canCancel) {
       alert(`This booking cannot be canceled. Cancellations are only allowed more than ${this.CANCELLATION_THRESHOLD_DAYS} days before departure.`);
       return;
@@ -145,7 +134,6 @@ export class MyBookingsComponent implements OnInit {
 
     if (confirm('Are you sure you want to cancel this booking?')) {
       this.reservationService.deleteReservation(id).subscribe(() => {
-        // Supprimer la réservation de la liste
         this.bookingsWithDetails = this.bookingsWithDetails.filter(booking => booking.id !== id);
         this.reservations = this.reservations.filter(r => r.id !== id);
       });

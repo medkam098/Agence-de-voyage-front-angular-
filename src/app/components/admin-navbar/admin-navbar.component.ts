@@ -7,23 +7,23 @@ import { AuthService } from '../../../services/auth.service';
   styleUrls: ['./admin-navbar.component.css']
 })
 export class AdminNavbarComponent implements OnInit {
-  name: string = '';  // Variable pour stocker le nom de l'utilisateur
-  optionsVisible: boolean = false;  // Variable pour afficher/masquer le lien "Déconnexion"
+  name: string = '';  
+  optionsVisible: boolean = false;  
 
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
     const user = this.authService.getUser();
     if (user) {
-      this.name = user.name;  // Assure-toi que l'objet `user` a un attribut `name`
+      this.name = user.name;  
     }
   }
 
   toggleOptions(): void {
-    this.optionsVisible = !this.optionsVisible;  // Affiche ou cache le lien "Déconnexion"
+    this.optionsVisible = !this.optionsVisible;  
   }
 
   logout(): void {
-    this.authService.logout();  // Appeler la méthode de déconnexion du service
+    this.authService.logout();  
   }
 }

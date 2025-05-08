@@ -33,9 +33,7 @@ export class ReservationModalComponent implements OnInit {
     this.loadVoyages();
     this.loadUsers();
 
-    // Vérifier si nous avons des données et si nous sommes en mode édition
     if (this.data && this.data.isEditMode && this.data.reservation) {
-      // Mode édition avec données de réservation
       this.isEditMode = true;
       const reservation = this.data.reservation;
 
@@ -59,7 +57,6 @@ export class ReservationModalComponent implements OnInit {
 
       console.log('Adding new reservation');
     } else if (this.data) {
-      // Ancienne structure de données (pour compatibilité)
       this.isEditMode = true;
       this.form = new FormGroup({
         id: new FormControl(this.data.id),
@@ -70,7 +67,6 @@ export class ReservationModalComponent implements OnInit {
 
       console.log('Editing reservation (legacy format):', this.data);
     } else {
-      // Mode création sans données
       this.isEditMode = false;
       this.form = new FormGroup({
         id: new FormControl(0),
@@ -111,7 +107,6 @@ export class ReservationModalComponent implements OnInit {
     if (this.form.valid) {
       const formValues = this.form.value;
 
-      // Créer un objet réservation avec les bonnes conversions de types
       const reservation: Reservation = {
         id: formValues.id,
         idVoyage: Number(formValues.idVoyage),
@@ -148,7 +143,6 @@ export class ReservationModalComponent implements OnInit {
           });
       }
     } else {
-      // Marquer tous les champs comme touchés pour afficher les erreurs
       Object.keys(this.form.controls).forEach(key => {
         const control = this.form.get(key);
         control?.markAsTouched();

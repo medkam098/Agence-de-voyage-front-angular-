@@ -102,7 +102,6 @@ export class UserModalComponent implements OnInit {
       const formValues = this.form.value;
 
       if (this.isEditMode) {
-        // En mode édition, créer un objet de mise à jour sans inclure le mot de passe
         const updateData: Partial<User> = {
           id: formValues.id,
           name: formValues.name,
@@ -115,7 +114,6 @@ export class UserModalComponent implements OnInit {
         console.log('Form values (edit):', formValues);
         console.log('User object to update:', updateData);
 
-        // En mode édition, on n'inclut jamais le mot de passe
         this.userService.updateUser(updateData.id!, updateData)
           .subscribe({
             next: (updatedUser) => {
@@ -128,7 +126,6 @@ export class UserModalComponent implements OnInit {
             }
           });
       } else {
-        // En mode création, utiliser toutes les valeurs du formulaire
         const newUser: User = {
           id: formValues.id,
           name: formValues.name,
@@ -155,7 +152,6 @@ export class UserModalComponent implements OnInit {
           });
       }
     } else {
-      // Marquer tous les champs comme touchés pour afficher les erreurs
       Object.keys(this.form.controls).forEach(key => {
         const control = this.form.get(key);
         control?.markAsTouched();

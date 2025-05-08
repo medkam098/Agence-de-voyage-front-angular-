@@ -13,19 +13,15 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
-  // Récupérer la liste des utilisateurs
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.apiUrl);
   }
 
-  // Récupérer un utilisateur par son ID
   getUser(id: number): Observable<User> {
     return this.http.get<User>(`${this.apiUrl}/${id}`);
   }
 
-  // Ajouter un nouvel utilisateur
   addUser(user: User): Observable<User> {
-    // Créer un objet avec les propriétés attendues par le backend
     const userData = {
       name: user.name,
       email: user.email,
@@ -39,12 +35,10 @@ export class UserService {
     return this.http.post<User>(this.addUrl, userData);
   }
 
-  // Mettre à jour un utilisateur
   updateUser(id: number, user: Partial<User>): Observable<User> {
     return this.http.put<User>(`${this.apiUrl}/${id}`, user);
   }
 
-  // Supprimer un utilisateur
   deleteUser(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }

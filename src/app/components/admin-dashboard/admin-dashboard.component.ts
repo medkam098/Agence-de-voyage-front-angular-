@@ -5,7 +5,6 @@ import { VoyageService } from '../../../services/voyage.service';
 import { DestinationService } from '../../../services/destination.service';
 import { forkJoin } from 'rxjs';
 
-// Enregistrer tous les composants Chart.js
 Chart.register(...registerables);
 
 @Component({
@@ -36,13 +35,11 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // Les graphiques seront initialisés une fois que les données sont chargées
   }
 
   loadDashboardData(): void {
     this.loading = true;
 
-    // Charger les données du tableau de bord et les données pour les graphiques supplémentaires
     forkJoin({
       dashboardStats: this.dashboardService.getDashboardStats(),
       destinations: this.destinationService.getDestinations(),
@@ -51,12 +48,10 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
       next: (results) => {
         this.stats = results.dashboardStats;
 
-        // Préparer les données pour le graphique des voyages par destination
         this.prepareVoyagesPerDestinationData(results.destinations, results.voyages);
 
         this.loading = false;
 
-        // Initialiser les graphiques après que les données sont chargées
         setTimeout(() => {
           if (this.activeTab === 'analytics') {
             this.initAllCharts();
@@ -71,22 +66,18 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
   }
 
   prepareVoyagesPerDestinationData(destinations: any[], voyages: any[]): void {
-    // Créer un objet pour compter les voyages par destination
     const voyagesCount: { [key: string]: number } = {};
 
-    // Initialiser le compteur pour chaque destination
     destinations.forEach(destination => {
       voyagesCount[destination.id] = 0;
     });
 
-    // Compter les voyages pour chaque destination
     voyages.forEach(voyage => {
       if (voyagesCount[voyage.destination_id] !== undefined) {
         voyagesCount[voyage.destination_id]++;
       }
     });
 
-    // Convertir les données pour le graphique
     this.voyagesPerDestinationData = destinations.map(destination => ({
       name: destination.nom,
       count: voyagesCount[destination.id]
@@ -96,7 +87,6 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
   setActiveTab(tab: string): void {
     this.activeTab = tab;
 
-    // Initialiser les graphiques si on passe à l'onglet analytics
     if (tab === 'analytics') {
       setTimeout(() => {
         this.initAllCharts();

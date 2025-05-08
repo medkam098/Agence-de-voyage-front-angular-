@@ -20,7 +20,6 @@ export class ReservationService {
   }
 
   addReservation(reservation: Reservation): Observable<Reservation> {
-    // Créer un objet avec les propriétés attendues par le backend
     const reservationData = {
       idVoyage: Number(reservation.idVoyage),
       idUser: Number(reservation.idUser),
@@ -32,7 +31,6 @@ export class ReservationService {
   }
 
   updateReservation(id: number, reservation: Reservation): Observable<Reservation> {
-    // Créer un objet avec les propriétés attendues par le backend
     const reservationData = {
       idVoyage: Number(reservation.idVoyage),
       idUser: Number(reservation.idUser),

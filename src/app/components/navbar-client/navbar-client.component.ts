@@ -26,7 +26,6 @@ export class NavbarClientComponent implements OnInit {
 
   logout(): void {
     this.authService.logout();
-    // Rediriger vers la page de connexion
     this.router.navigate(['/login']);
   }
 
