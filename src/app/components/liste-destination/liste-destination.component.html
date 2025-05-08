@@ -1,0 +1,71 @@
+<div class="admin-layout">
+  <app-sidebar></app-sidebar>
+  <div class="main-container">
+    <app-header></app-header>
+    <div class="component-content">
+  <div class="page-header">
+    <h2 class="title">Manage Destinations</h2>
+  </div>
+
+  <div class="header-container">
+    <div class="search-container">
+      <mat-icon class="search-icon">search</mat-icon>
+      <input type="text" [(ngModel)]="searchQuery" (input)="filterDestinations()" placeholder="Search..." class="search-input">
+    </div>
+
+    <!-- Name filter -->
+    <div class="filter-container">
+      <mat-form-field appearance="outline">
+        <mat-label>Filter by Name</mat-label>
+        <input matInput [(ngModel)]="selectedName" (input)="onFilterChange()" placeholder="Enter destination name">
+        <button *ngIf="selectedName" matSuffix mat-icon-button aria-label="Clear" (click)="selectedName=''; onFilterChange()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+
+    <button mat-fab color="primary" (click)="openAddModal()" matTooltip="Add Destination" aria-label="Add Destination">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+
+<!-- Loading indicator -->
+<div class="loading-container" *ngIf="isLoading">
+  <div class="spinner"></div>
+  <p>Loading destinations...</p>
+</div>
+
+<div class="table-container" *ngIf="!isLoading">
+<table class="destination-table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Image</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let destination of filteredDestinations">
+      <td>{{ destination.id }}</td>
+      <td>{{ destination.nom }}</td>
+      <td>{{ destination.description }}</td>
+      <td><img [src]="destination.image" alt="image" class="destination-image"></td>
+      <td class="actions-cell">
+        <button mat-mini-fab color="accent" (click)="viewVoyages(destination.id)" matTooltip="View Cruises" aria-label="View Cruises">
+          <mat-icon>flight</mat-icon>
+        </button>
+        <button mat-mini-fab color="primary" (click)="openEditModal(destination)" matTooltip="Edit" aria-label="Edit">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-mini-fab color="warn" (click)="deleteDestination(destination.id)" matTooltip="Delete" aria-label="Delete">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+  </div>
+</div>

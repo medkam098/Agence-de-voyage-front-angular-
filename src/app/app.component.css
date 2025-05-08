@@ -1,0 +1,36 @@
+/* Admin layout with sidebar and header */
+.app-container {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+.content-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.page-content {
+  flex: 1;
+  overflow-y: auto;
+  background-color: #f9f9f9;
+  position: relative;
+}
+
+/* Full page layout for public pages */
+.full-page-container {
+  height: 100vh;
+  width: 100%;
+  overflow-y: auto;
+  background-color: #f9f9f9;
+}
+
+/* Responsive styles */
+@media (max-width: 991px) {
+  .app-container {
+    position: relative;
+  }
+}

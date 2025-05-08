@@ -1,0 +1,9 @@
+<h2 mat-dialog-title id="dialog-title">{{ title }}</h2>
+<mat-dialog-content aria-labelledby="dialog-title">
+  <p *ngIf="!isHtml">{{ message }}</p>
+  <div *ngIf="isHtml" [innerHTML]="message"></div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button *ngIf="showCancel" mat-button (click)="cancel()" aria-label="Annuler l'action">{{ cancelLabel }}</button>
+  <button mat-button color="primary" (click)="confirm()" aria-label="Confirmer l'action">{{ confirmLabel }}</button>
+</mat-dialog-actions>

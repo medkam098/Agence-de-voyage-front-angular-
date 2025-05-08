@@ -1,0 +1,74 @@
+<div class="login-container">
+  <div class="content-wrapper">
+    <div class="login-box">
+      <div class="logo-container">
+        <i class="fas fa-user-plus logo-icon"></i>
+      </div>
+      <h2 class="login-title">Créer un compte</h2>
+      <p class="login-subtitle">Rejoignez-nous pour découvrir le monde</p>
+
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="name"><i class="fas fa-user" style="font-size: 16px;"></i> Nom</label>
+          <div class="input-with-icon">
+            <input type="text" id="name" formControlName="name" class="form-control" placeholder="Entrez votre nom" />
+          </div>
+          <div *ngIf="registerForm.get('name')?.invalid && registerForm.get('name')?.touched" class="error-message">
+            <i class="fas fa-exclamation-circle"></i> Nom requis (minimum 2 caractères)
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="email"><i class="fas fa-envelope" style="font-size: 16px;"></i> Email</label>
+          <div class="input-with-icon">
+            <input type="email" id="email" formControlName="email" class="form-control" placeholder="Entrez votre email" />
+          </div>
+          <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" class="error-message">
+            <i class="fas fa-exclamation-circle"></i> Email invalide
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password"><i class="fas fa-lock" style="font-size: 16px;"></i> Mot de passe</label>
+          <div class="input-with-icon">
+            <input type="password" id="password" formControlName="password" class="form-control" placeholder="Entrez votre mot de passe" />
+          </div>
+          <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="error-message">
+            <i class="fas fa-exclamation-circle"></i> Mot de passe requis (minimum 6 caractères)
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password_confirmation"><i class="fas fa-shield-alt" style="font-size: 16px;"></i> Confirmer le mot de passe</label>
+          <div class="input-with-icon">
+            <input type="password" id="password_confirmation" formControlName="password_confirmation" class="form-control" placeholder="Confirmez votre mot de passe" />
+          </div>
+          <div *ngIf="registerForm.get('password_confirmation')?.invalid && registerForm.get('password_confirmation')?.touched" class="error-message">
+            <i class="fas fa-exclamation-circle"></i> Confirmer le mot de passe
+          </div>
+          <div *ngIf="registerForm.errors?.['passwordMismatch']" class="error-message">
+            <i class="fas fa-exclamation-triangle"></i> Les mots de passe ne correspondent pas
+          </div>
+        </div>
+
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary" [disabled]="registerForm.invalid">
+            <i class="fas fa-user-plus" style="font-size: 18px;"></i> S'inscrire
+          </button>
+        </div>
+
+        <div *ngIf="errorMessage" class="error-message mt-3">
+          <i class="fas fa-exclamation-triangle"></i> {{ errorMessage }}
+        </div>
+      </form>
+
+      <div class="login-section">
+        <p class="login-text">Vous avez déjà un compte ?</p>
+        <button class="btn btn-secondary" routerLink="/login">
+          <i class="fas fa-sign-in-alt" style="font-size: 18px;"></i> Se connecter
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>

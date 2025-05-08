@@ -1,1 +1,74 @@
 /* You can add global styles to this file, and also import other style files */
+@import "@angular/material/prebuilt-themes/indigo-pink.css";
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+  overflow-y: auto; /* Allow vertical scrolling */
+  font-family: 'Roboto', 'Segoe UI', sans-serif;
+  background-color: #f9f9f9;
+}
+
+app-root {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Styles pour les boutons Material */
+button.mat-mdc-raised-button.mat-primary {
+  background-color: #3f51b5;
+}
+
+button.mat-mdc-raised-button.mat-warn {
+  background-color: #f44336;
+}
+
+/* Styles pour les boutons mini-fab dans les tableaux */
+.mat-mdc-mini-fab {
+  transform: scale(1);
+  margin: 0 4px;
+}
+
+.mat-mdc-mini-fab .mat-icon {
+  font-size: 22px;
+}
+
+/* Styles pour les boutons fab (ajouter) */
+.mat-mdc-fab {
+  margin-left: 10px;
+}
+
+.mat-mdc-fab .mat-icon {
+  font-size: 24px;
+}
+
+/* Styles pour les cellules d'actions */
+.actions-cell {
+  white-space: nowrap;
+  padding: 8px 16px !important;
+}
+
+/* Assurer que les icônes sont visibles */
+.mat-icon {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  font-feature-settings: 'liga';
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}

@@ -1,0 +1,24 @@
+<!-- Navbar client -->
+<app-navbar-client></app-navbar-client>
+
+<div class="destination-view-container">
+  <h2 class="title">Nos Destinations</h2>
+
+  <div class="search-bar">
+    <input type="text" [(ngModel)]="searchQuery" (input)="filterDestinations()" placeholder="Rechercher une destination...">
+  </div>
+
+  <div class="destination-grid">
+    <div class="card" *ngFor="let destination of filteredDestinations">
+      <img [src]="destination.image" alt="{{ destination.nom }}">
+      <div class="card-body">
+        <h3>{{ destination.nom }}</h3>
+        <p>{{ destination.description }}</p>
+        <button (click)="viewDetails(destination.id)">Découvrir</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer en dehors du conteneur pour qu'il s'étende sur toute la largeur -->
+<app-footer></app-footer>

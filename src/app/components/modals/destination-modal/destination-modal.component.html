@@ -1,0 +1,32 @@
+<h2 mat-dialog-title>{{ modalTitle }}</h2>
+<br>
+<mat-dialog-content>
+  <br>
+  <form [formGroup]="form">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Nom</mat-label>
+      <input matInput formControlName="nom" required>
+      <mat-error *ngIf="form.get('nom')?.hasError('required')">Le nom est requis</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Description</mat-label>
+      <textarea matInput formControlName="description" rows="3" required></textarea>
+      <mat-error *ngIf="form.get('description')?.hasError('required')">La description est requise</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Image URL</mat-label>
+      <input matInput formControlName="image" required>
+      <mat-error *ngIf="form.get('image')?.hasError('required')">L'URL de l'image est requise</mat-error>
+    </mat-form-field>
+
+    <div class="image-preview" *ngIf="form.get('image')?.value">
+      <img [src]="form.get('image')?.value" alt="Aperçu de l'image" />
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="close()">Annuler</button>
+  <button mat-raised-button color="primary" [disabled]="form.invalid" (click)="save()">{{ buttonText }}</button>
+</mat-dialog-actions>

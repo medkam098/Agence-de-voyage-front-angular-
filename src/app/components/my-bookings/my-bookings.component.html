@@ -1,0 +1,67 @@
+<!-- Navbar client -->
+<app-navbar-client></app-navbar-client>
+
+<div class="bookings-container">
+  <div class="bookings-header">
+    <h1>My Bookings</h1>
+    <p>Manage your cruise reservations</p>
+  </div>
+
+  <!-- Loading indicator -->
+  <div class="loading-container" *ngIf="isLoading">
+    <div class="spinner"></div>
+    <p>Loading your bookings...</p>
+  </div>
+
+  <!-- No bookings message -->
+  <div class="no-bookings" *ngIf="!isLoading && bookingsWithDetails.length === 0">
+    <i class="fas fa-calendar-times"></i>
+    <h2>No Bookings Found</h2>
+    <p>You don't have any active bookings at the moment.</p>
+    <button class="explore-button" routerLink="/destinations">Explore Destinations</button>
+  </div>
+
+  <!-- Bookings list -->
+  <div class="bookings-list" *ngIf="!isLoading && bookingsWithDetails.length > 0">
+    <div class="booking-card" *ngFor="let booking of bookingsWithDetails"
+         [ngClass]="{'non-cancellable': !booking.canCancel, 'past-flight': booking.isPastFlight}">
+      <div class="booking-header">
+        <h3>{{ booking.voyage }} - {{ booking.destination }}</h3>
+      </div>
+      <div class="booking-details">
+        <div class="booking-info">
+          <div class="info-item">
+            <i class="fas fa-calendar-alt"></i>
+            <span>{{ booking.date | date }}</span>
+          </div>
+          <div class="info-item">
+            <i class="fas fa-users"></i>
+            <span>{{ booking.seats }} {{ booking.seats > 1 ? 'seats' : 'seat' }}</span>
+          </div>
+          <div class="info-item">
+            <i class="fas fa-euro-sign"></i>
+            <span>{{ booking.totalPrice | currency:'EUR':'symbol':'1.2-2' }}</span>
+          </div>
+          <div class="info-item" *ngIf="!booking.isPastFlight" [ngClass]="{'warning': booking.daysUntilDeparture <= 2}">
+            <i class="fas fa-clock"></i>
+            <span>{{ booking.daysUntilDeparture }} days until departure</span>
+          </div>
+          <div class="info-item past-flight-indicator" *ngIf="booking.isPastFlight">
+            <i class="fas fa-check-circle"></i>
+            <span>Completed</span>
+          </div>
+        </div>
+        <div class="booking-actions">
+          <div class="cancellation-status" *ngIf="!booking.canCancel">
+            <i class="fas fa-exclamation-triangle"></i>
+            <span>{{ booking.cancellationMessage }}</span>
+          </div>
+          <button class="cancel-button" [disabled]="!booking.canCancel" (click)="cancelBooking(booking.id)" [ngClass]="{'disabled': !booking.canCancel}">
+            <i class="fas fa-times"></i> Cancel Booking
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

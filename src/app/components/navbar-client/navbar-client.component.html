@@ -1,0 +1,32 @@
+<nav class="navbar">
+  <div class="navbar-container">
+    <!-- Partie gauche avec salutation utilisateur -->
+    <div class="navbar-left">
+      <div class="navbar-item user-greeting" *ngIf="currentUser">
+        <span>Hello, {{ currentUser.name }}</span>
+      </div>
+    </div>
+
+    <!-- Bouton menu pour mobile -->
+    <button class="navbar-toggle" (click)="toggleMenu()">
+      <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Liens de navigation (au centre) -->
+    <div class="navbar-menu" [class.active]="isMenuOpen">
+      <div class="navbar-center">
+        <a class="navbar-item" routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
+        <a class="navbar-item" routerLink="/my-bookings" routerLinkActive="active">My Bookings</a>
+      </div>
+    </div>
+
+    <!-- Partie droite avec bouton de déconnexion -->
+    <div class="navbar-right">
+      <div class="navbar-item">
+        <button class="logout-button" (click)="logout()">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,75 @@
+<div class="admin-layout">
+  <app-sidebar></app-sidebar>
+  <div class="main-container">
+    <app-header></app-header>
+    <div class="component-content">
+  <div class="page-header">
+    <h2 class="title">Manage Users</h2>
+  </div>
+
+<div class="header-container">
+  <div class="search-container">
+    <mat-icon class="search-icon">search</mat-icon>
+    <input
+      type="text"
+      [(ngModel)]="searchQuery"
+      (input)="filterUsers()"
+      placeholder="Search..."
+      class="search-input"
+    />
+  </div>
+
+  <!-- Role filter -->
+  <div class="filter-container">
+    <mat-form-field appearance="outline">
+      <mat-label>Filter by Role</mat-label>
+      <mat-select [(ngModel)]="selectedRole" (selectionChange)="onRoleFilterChange()">
+        <mat-option *ngFor="let role of roles" [value]="role">
+          {{ role === 'all' ? 'All Roles' : (role | titlecase) }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <button mat-fab color="primary" (click)="openAddModal()" matTooltip="Add User" aria-label="Add User">
+    <mat-icon>add</mat-icon>
+  </button>
+</div>
+
+<!-- Loading indicator -->
+<div class="loading-container" *ngIf="isLoading">
+  <div class="spinner"></div>
+  <p>Loading users...</p>
+</div>
+
+<div class="table-container" *ngIf="!isLoading">
+<table class="user-table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Role</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of filteredUsers">
+      <td>{{ user.id }}</td>
+      <td>{{ user.name }}</td>
+      <td>{{ user.email }}</td>
+      <td>{{ user.role }}</td>
+      <td class="actions-cell">
+        <button mat-mini-fab color="primary" (click)="openEditModal(user)" matTooltip="Edit" aria-label="Edit">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-mini-fab color="warn" (click)="deleteUser(user.id)" matTooltip="Delete" aria-label="Delete">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,44 @@
+<nav class="admin-navbar">
+    <div class="left">
+      <span class="welcome-text">
+        <i class="fas fa-user-circle"></i>
+        Bienvenue, {{ name }}
+      </span>
+    </div>
+
+    <div class="center">
+      <ul>
+        <li>
+          <a routerLink="/admin/dashboard" routerLinkActive="active">
+            <i class="fas fa-tachometer-alt"></i> Tableau de bord
+          </a>
+        </li>
+        <li>
+          <a routerLink="/voyages" routerLinkActive="active">
+            <i class="fas fa-plane"></i> Voyages
+          </a>
+        </li>
+        <li>
+          <a routerLink="/destinations" routerLinkActive="active">
+            <i class="fas fa-map-marker-alt"></i> Destinations
+          </a>
+        </li>
+        <li>
+          <a routerLink="/reservations" routerLinkActive="active">
+            <i class="fas fa-calendar-check"></i> Réservations
+          </a>
+        </li>
+        <li>
+          <a routerLink="/users" routerLinkActive="active">
+            <i class="fas fa-users"></i> Utilisateurs
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="right">
+      <a (click)="logout()" class="logout-link">
+        <i class="fas fa-sign-out-alt"></i> Déconnexion
+      </a>
+    </div>
+  </nav>

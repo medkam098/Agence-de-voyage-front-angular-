@@ -1,0 +1,49 @@
+<h2 mat-dialog-title>{{ modalTitle }}</h2>
+<mat-dialog-content>
+  <form [formGroup]="form">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Nom</mat-label>
+      <input matInput formControlName="name" required>
+      <mat-error *ngIf="form.get('name')?.hasError('required')">Le nom est requis</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" formControlName="email" required>
+      <mat-error *ngIf="form.get('email')?.hasError('required')">L'email est requis</mat-error>
+      <mat-error *ngIf="form.get('email')?.hasError('email')">Format d'email invalide</mat-error>
+    </mat-form-field>
+
+    <!-- Champ mot de passe uniquement en mode création -->
+    <mat-form-field *ngIf="!isEditMode" appearance="outline" class="full-width">
+      <mat-label>Mot de passe</mat-label>
+      <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" required>
+      <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" type="button">
+        <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
+      <mat-error *ngIf="form.get('password')?.hasError('required')">Le mot de passe est requis</mat-error>
+      <mat-error *ngIf="form.get('password')?.hasError('minlength')">Le mot de passe doit contenir au moins 6 caractères</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Rôle</mat-label>
+      <mat-select formControlName="role" required>
+        <mat-option *ngFor="let role of roles" [value]="role">{{ role }}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('role')?.hasError('required')">Le rôle est requis</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Avatar URL</mat-label>
+      <input matInput formControlName="avatar">
+    </mat-form-field>
+
+    <div class="checkbox-field">
+      <mat-checkbox formControlName="isActive">Utilisateur actif</mat-checkbox>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="close()">Annuler</button>
+  <button mat-raised-button color="primary" [disabled]="form.invalid" (click)="save()">{{ buttonText }}</button>
+</mat-dialog-actions>

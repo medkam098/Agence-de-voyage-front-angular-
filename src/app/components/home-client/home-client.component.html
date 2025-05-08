@@ -1,0 +1,239 @@
+<!-- Navbar client -->
+<app-navbar-client></app-navbar-client>
+
+<div class="home-container">
+  <!-- Hero section -->
+  <section class="hero-section">
+    <div class="hero-content">
+      <h1>Discover Amazing Flight Destinations</h1>
+      <p>Explore the world's most beautiful destinations with Our Agency</p>
+
+      <!-- Search box -->
+      <div class="search-container">
+        <!-- Simple search -->
+        <div class="simple-search">
+          <input type="text" placeholder="Search cruises..." [(ngModel)]="searchQuery" (keyup.enter)="searchCruises()">
+          <button class="simple-search-button" (click)="searchCruises()">
+            <i class="fas fa-search"></i>
+          </button>
+          <button class="toggle-advanced" (click)="toggleAdvancedSearch()">
+            {{ showAdvancedSearch ? 'Simple Search' : 'Advanced Search' }}
+          </button>
+        </div>
+
+        <!-- Advanced search fields -->
+        <div class="search-fields" *ngIf="showAdvancedSearch">
+          <div class="search-field">
+            <label>Departure</label>
+            <select [(ngModel)]="searchDeparture">
+              <option value="">Any departure port</option>
+              <option *ngFor="let departure of availableDepartures" [value]="departure">{{ departure }}</option>
+            </select>
+          </div>
+
+          <div class="search-field">
+            <label>Destination</label>
+            <select [(ngModel)]="searchDestinationId">
+              <option value="">Any destination</option>
+              <option *ngFor="let destination of destinations" [value]="destination.id">{{ destination.nom }}</option>
+            </select>
+          </div>
+
+          <div class="search-field">
+            <label>Date</label>
+            <div class="date-input">
+              <input type="date" [(ngModel)]="searchDate">
+            </div>
+          </div>
+
+          <!-- Search button -->
+          <button class="search-button" (click)="searchCruises()">
+            Search Flights
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Loading indicator -->
+  <div class="loading-container" *ngIf="isLoading">
+    <div class="spinner"></div>
+    <p>Loading amazing Flights...</p>
+  </div>
+
+  <!-- Main content -->
+  <div class="main-content" *ngIf="!isLoading">
+    <!-- Search results section -->
+    <section class="search-results-section" *ngIf="hasSearchResults">
+      <h2>Search Results</h2>
+      <div class="search-info">
+        <p>Found {{ filteredVoyages.length }} flights matching your search criteria</p>
+        <button class="clear-search-button" (click)="clearSearch()">Clear Search</button>
+      </div>
+
+      <div class="pagination-info">
+        <p>Showing {{ (currentPage - 1) * itemsPerPage + 1 }} - {{ Math.min(currentPage * itemsPerPage, filteredVoyages.length) }} of {{ filteredVoyages.length }} flights</p>
+      </div>
+
+      <div class="featured-grid">
+        <div class="featured-card" *ngFor="let voyage of getPaginatedSearchResults()">
+          <div class="card-image">
+            <img [src]="getDestinationImage(voyage.destination_id)" [alt]="getDestinationName(voyage.destination_id)">
+            <div class="card-badge">{{ getDaysUntil(voyage.datevoyage) }} days left</div>
+          </div>
+          <div class="card-content">
+            <div class="card-header">
+              <h3>{{ voyage.depart }} to {{ getDestinationName(voyage.destination_id) }}</h3>
+              <span class="card-date">{{ voyage.datevoyage | date:'mediumDate' }}</span>
+            </div>
+            <div class="card-details">
+              <p class="price">From €{{ voyage.prixplace | number:'1.2-2' }} per person</p>
+              <p class="seats"><i class="fas fa-users"></i> {{ getRemainingSeats(voyage) }} seats remaining</p>
+            </div>
+            <div class="card-actions">
+              <button class="action-button book-button" (click)="openBookingModal(voyage)">
+                <i class="fas fa-ticket-alt"></i> Book
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pagination controls -->
+      <div class="pagination-controls" *ngIf="totalPages > 1">
+        <button class="pagination-button" [disabled]="currentPage === 1" (click)="prevPage()">
+          <i class="fas fa-chevron-left"></i> Previous
+        </button>
+
+        <div class="pagination-pages">
+          <button
+            *ngFor="let page of [].constructor(totalPages); let i = index"
+            class="page-button"
+            [class.active]="currentPage === i + 1"
+            (click)="goToPage(i + 1)">
+            {{ i + 1 }}
+          </button>
+        </div>
+
+        <button class="pagination-button" [disabled]="currentPage === totalPages" (click)="nextPage()">
+          Next <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- All upcoming flights section -->
+    <section class="featured-section" *ngIf="!hasSearchResults">
+      <h2>All Upcoming Flights</h2>
+      <div class="pagination-info">
+        <p>Showing {{ (currentPage - 1) * itemsPerPage + 1 }} - {{ Math.min(currentPage * itemsPerPage, upcomingVoyages.length) }} of {{ upcomingVoyages.length }} flights</p>
+      </div>
+
+      <div class="featured-grid">
+        <div class="featured-card" *ngFor="let voyage of getPaginatedVoyages()">
+          <div class="card-image">
+            <img [src]="getDestinationImage(voyage.destination_id)" [alt]="getDestinationName(voyage.destination_id)">
+            <div class="card-badge">{{ getDaysUntil(voyage.datevoyage) }} days left</div>
+          </div>
+          <div class="card-content">
+            <div class="card-header">
+              <h3>{{ voyage.depart }} to {{ getDestinationName(voyage.destination_id) }}</h3>
+              <span class="card-date">{{ voyage.datevoyage | date:'mediumDate' }}</span>
+            </div>
+            <div class="card-details">
+              <p class="price">From €{{ voyage.prixplace | number:'1.2-2' }} per person</p>
+              <p class="seats"><i class="fas fa-users"></i> {{ getRemainingSeats(voyage) }} seats remaining</p>
+            </div>
+            <div class="card-actions">
+              <button class="action-button book-button" (click)="openBookingModal(voyage)">
+                <i class="fas fa-ticket-alt"></i> Book
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pagination controls -->
+      <div class="pagination-controls" *ngIf="totalPages > 1">
+        <button class="pagination-button" [disabled]="currentPage === 1" (click)="prevPage()">
+          <i class="fas fa-chevron-left"></i> Previous
+        </button>
+
+        <div class="pagination-pages">
+          <button
+            *ngFor="let page of [].constructor(totalPages); let i = index"
+            class="page-button"
+            [class.active]="currentPage === i + 1"
+            (click)="goToPage(i + 1)">
+            {{ i + 1 }}
+          </button>
+        </div>
+
+        <button class="pagination-button" [disabled]="currentPage === totalPages" (click)="nextPage()">
+          Next <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+    </section>
+  </div>
+
+  <!-- Booking Modal -->
+  <div class="modal-overlay" *ngIf="showBookingModal" (click)="closeBookingModal($event)">
+    <div class="booking-modal">
+      <div class="modal-header">
+        <h3>Book Your Cruise</h3>
+        <button class="close-modal" (click)="closeBookingModal($event)">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="cruise-info" *ngIf="selectedVoyage">
+          <h4>{{ selectedVoyage.depart }} to {{ getDestinationName(selectedVoyage.destination_id) }}</h4>
+          <p class="cruise-date">{{ selectedVoyage.datevoyage | date:'fullDate' }}</p>
+
+          <div class="cruise-details">
+            <div class="detail-item">
+              <span class="detail-label">Price per person:</span>
+              <span class="detail-value">€{{ selectedVoyage.prixplace | number:'1.2-2' }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Available seats:</span>
+              <span class="detail-value">{{ getRemainingSeats(selectedVoyage) }}</span>
+            </div>
+          </div>
+
+          <div class="booking-form">
+            <div class="form-group">
+              <label for="seats">Number of seats to book:</label>
+              <input
+                type="number"
+                id="seats"
+                [(ngModel)]="bookingSeats"
+                min="1"
+                [max]="getRemainingSeats(selectedVoyage)"
+                (change)="updateTotalPrice()"
+              >
+            </div>
+
+            <div class="total-price">
+              <span>Total Price:</span>
+              <span class="price-value">€{{ totalBookingPrice | number:'1.2-2' }}</span>
+            </div>
+
+            <div class="booking-error" *ngIf="bookingError">
+              {{ bookingError }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="cancel-button" (click)="closeBookingModal($event)">Cancel</button>
+        <button class="confirm-button" [disabled]="!isValidBooking()" (click)="confirmBooking()">
+          Confirm Booking
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

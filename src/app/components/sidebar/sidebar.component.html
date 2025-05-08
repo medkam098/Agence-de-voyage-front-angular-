@@ -1,0 +1,26 @@
+<div class="sidebar" [class.collapsed]="isCollapsed">
+ 
+  <div class="sidebar-menu">
+    <a routerLink="/admin/dashboard" routerLinkActive="active" class="sidebar-item">
+      <span class="sidebar-icon"><i class="fas fa-tachometer-alt"></i></span>
+      <span class="sidebar-text" [class.hidden]="isCollapsed">Dashboard</span>
+    </a>
+    <a routerLink="/admin/destinations" routerLinkActive="active" class="sidebar-item">
+      <span class="sidebar-icon"><i class="fas fa-map-marker-alt"></i></span>
+      <span class="sidebar-text" [class.hidden]="isCollapsed">Destinations</span>
+    </a>
+    <a routerLink="/admin/voyages" routerLinkActive="active" class="sidebar-item">
+      <span class="sidebar-icon"><i class="fas fa-plane"></i></span>
+      <span class="sidebar-text" [class.hidden]="isCollapsed">Flights</span>
+    </a>
+    <a routerLink="/admin/reservations" routerLinkActive="active" class="sidebar-item">
+      <span class="sidebar-icon"><i class="fas fa-calendar-check"></i></span>
+      <span class="sidebar-text" [class.hidden]="isCollapsed">Bookings</span>
+    </a>
+    <a routerLink="/admin/users" routerLinkActive="active" class="sidebar-item">
+      <span class="sidebar-icon"><i class="fas fa-users"></i></span>
+      <span class="sidebar-text" [class.hidden]="isCollapsed">Users</span>
+    </a>
+  </div>
+</div>
+<div class="sidebar-overlay" *ngIf="!isCollapsed && isMobile" (click)="toggleSidebar()"></div>

@@ -1,0 +1,133 @@
+<div class="admin-layout">
+  <app-sidebar></app-sidebar>
+  <div class="main-container">
+    <app-header></app-header>
+    <div class="component-content">
+  <div class="dashboard-container" *ngIf="!loading && stats">
+  <!-- Cartes de statistiques -->
+  <div class="stats-cards">
+    <div class="stat-card">
+      <div class="stat-header">
+        <span class="stat-title">Total Revenue</span>
+        <span class="stat-icon"><i class="fas fa-dollar-sign"></i></span>
+      </div>
+      <div class="stat-value">${{stats.totalRevenue | number:'1.2-2'}}</div>
+      <div class="stat-change" [ngClass]="getStatusClass(stats.revenueChange)">
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-header">
+        <span class="stat-title">Total Bookings</span>
+        <span class="stat-icon"><i class="fas fa-calendar-check"></i></span>
+      </div>
+      <div class="stat-value">{{stats.bookings | number}}</div>
+      <div class="stat-change" [ngClass]="getStatusClass(stats.bookingsChange)">
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-header">
+        <span class="stat-title">Total Flights</span>
+        <span class="stat-icon"><i class="fas fa-plane"></i></span>
+      </div>
+      <div class="stat-value">{{stats.totalVoyages | number}}</div>
+      <div class="stat-change" [ngClass]="getStatusClass(stats.voyagesChange)">
+
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-header">
+        <span class="stat-title">Total Destinations</span>
+        <span class="stat-icon"><i class="fas fa-map-marker-alt"></i></span>
+      </div>
+      <div class="stat-value">{{stats.totalDestinations | number}}</div>
+      <div class="stat-change" [ngClass]="getStatusClass(stats.destinationsChange)">
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Onglets -->
+  <div class="dashboard-tabs">
+    <button class="tab-button" [class.active]="activeTab === 'overview'" (click)="setActiveTab('overview')">Overview</button>
+    <button class="tab-button" [class.active]="activeTab === 'analytics'" (click)="setActiveTab('analytics')">Analytics</button>
+  </div>
+
+  <!-- Contenu des onglets -->
+  <div class="tab-content" *ngIf="activeTab === 'overview'">
+    <div class="dashboard-panels">
+      <!-- Recent Bookings -->
+      <div class="dashboard-panel">
+        <h2 class="panel-title">Recent Bookings</h2>
+        <table class="dashboard-table">
+          <thead>
+            <tr>
+              <th>Customer</th>
+              <th>Flight</th>
+              <th>Seats</th>
+              <th>Total Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let booking of stats.recentBookings">
+              <td>{{booking.customer}}</td>
+              <td>{{booking.voyage}}</td>
+              <td>{{booking.seats}}</td>
+              <td>{{booking.amount | currency:'EUR':'symbol':'1.2-2'}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Popular Destinations -->
+      <div class="dashboard-panel">
+        <h2 class="panel-title">Popular Destinations</h2>
+
+        <div class="destinations-list">
+          <div class="destination-item" *ngFor="let destination of stats.popularDestinations">
+            <div class="destination-name">{{destination.name}}</div>
+            <div class="destination-bar-container">
+              <div class="destination-bar" [style.width.%]="destination.percentage"></div>
+            </div>
+            <div class="destination-percentage">{{destination.percentage}}%</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-content" *ngIf="activeTab === 'analytics'">
+    <div class="analytics-grid">
+
+
+      <!-- Destinations Popularity Chart -->
+      <div class="dashboard-panel">
+        <h2 class="panel-title">Popular Destinations</h2>
+        <p class="panel-subtitle">Distribution of bookings by destination</p>
+        <div class="chart-container">
+          <canvas #destinationsChart></canvas>
+        </div>
+      </div>
+
+      <!-- Voyages per Destination Chart -->
+      <div class="dashboard-panel">
+        <h2 class="panel-title">Flights per Destination</h2>
+        <p class="panel-subtitle">Number of Flights available for each destination</p>
+        <div class="chart-container">
+          <canvas #voyagesPerDestinationChart></canvas>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</div>
+
+<div class="loading-container" *ngIf="loading">
+  <p>Loading data...</p>
+    </div>
+  </div>
+</div>

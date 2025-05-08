@@ -1,0 +1,85 @@
+<div class="admin-layout">
+  <app-sidebar></app-sidebar>
+  <div class="main-container">
+    <app-header></app-header>
+    <div class="component-content">
+  <div class="page-header">
+    <h2 class="title">Manage Cruises</h2>
+  </div>
+
+<div class="header-container">
+  <div class="search-container">
+    <mat-icon class="search-icon">search</mat-icon>
+    <input type="text" [(ngModel)]="searchQuery" (input)="filterVoyages()" placeholder="Search..." class="search-input">
+  </div>
+
+  <!-- Departure filter -->
+  <div class="filter-container">
+    <mat-form-field appearance="outline">
+      <mat-label>Departure</mat-label>
+      <mat-select [(ngModel)]="selectedDeparture" (selectionChange)="onFilterChange()">
+        <mat-option [value]="">All Departures</mat-option>
+        <mat-option *ngFor="let departure of availableDepartures" [value]="departure">
+          {{ departure }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <!-- Destination filter -->
+  <div class="filter-container">
+    <mat-form-field appearance="outline">
+      <mat-label>Destination</mat-label>
+      <mat-select [(ngModel)]="selectedDestination" (selectionChange)="onFilterChange()">
+        <mat-option [value]="">All Destinations</mat-option>
+        <mat-option *ngFor="let destination of destinations" [value]="destination.id">
+          {{ destination.nom }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <button mat-fab color="primary" (click)="openAddModal()" matTooltip="Add Cruise" aria-label="Add Cruise">
+    <mat-icon>add</mat-icon>
+  </button>
+</div>
+
+<!-- Loading indicator -->
+<div class="loading-container" *ngIf="isLoading">
+  <div class="spinner"></div>
+  <p>Loading cruises...</p>
+</div>
+
+<div class="table-container" *ngIf="!isLoading">
+<table class="destination-table">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Total Seats</th>
+      <th>Price</th>
+      <th>Departure</th>
+      <th>Destination</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let voyage of filteredVoyages">
+      <td>{{ voyage.datevoyage }}</td>
+      <td>{{ voyage.nbplacetotal }}</td>
+      <td>{{ voyage.prixplace }} €</td>
+      <td>{{ voyage.depart }}</td>
+      <td>{{ voyage.destinationNom || 'Chargement...' }}</td>
+      <td class="actions-cell">
+        <button mat-mini-fab color="primary" (click)="openEditModal(voyage)" matTooltip="Edit" aria-label="Edit">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-mini-fab color="warn" (click)="deleteVoyage(voyage.id!)" matTooltip="Delete" aria-label="Delete">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+  </div>
+</div>

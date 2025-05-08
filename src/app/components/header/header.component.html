@@ -1,0 +1,15 @@
+<header class="header" [class.sidebar-collapsed]="isSidebarCollapsed">
+  <div class="header-left">
+    <button class="header-icon-btn menu-toggle" (click)="toggleSidebar()">
+      <i class="fas" [ngClass]="isSidebarCollapsed ? 'fa-bars' : 'fa-times'"></i>
+    </button>
+    <h1 class="header-title">Welcome, {{ adminName }}</h1>
+  </div>
+
+  <div class="header-right">
+    <div class="spacer"></div>
+    <button class="header-icon-btn" (click)="logout()">
+      <i class="fas fa-sign-out-alt"></i>
+    </button>
+  </div>
+</header>

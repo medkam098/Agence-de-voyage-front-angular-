@@ -1,0 +1,127 @@
+.admin-navbar {
+    background: linear-gradient(to right, #4a6bdf, #6a5acd); /* Dégradé plus subtil et professionnel */
+    color: white;
+    padding: 12px 25px; /* Ajustement de l'espacement */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1); /* Ombre plus légère */
+    border-radius: 6px; /* Coins légèrement arrondis */
+    margin: 10px 15px; /* Marge autour de la navbar */
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Bordure subtile */
+  }
+
+  .left {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+  }
+
+  .welcome-text {
+    font-weight: 600;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+  }
+
+  .welcome-text i {
+    margin-right: 8px;
+    font-size: 18px;
+  }
+
+  .center {
+    flex-grow: 2;
+    display: flex;
+    justify-content: center;
+  }
+
+  .center ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    gap: 15px; /* Espacement réduit entre les éléments */
+    margin: 0;
+  }
+
+  .center li {
+    display: inline;
+  }
+
+  .center a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 15px;
+    font-size: 15px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+  }
+
+  .center a i {
+    margin-right: 6px;
+  }
+
+  .center a:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+  }
+
+  .center .active {
+    font-weight: 600;
+    background-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2);
+  }
+
+  .right {
+    display: flex;
+    align-items: center;
+  }
+
+  .logout-link {
+    color: white;
+    text-decoration: none;
+    font-size: 15px;
+    padding: 8px 15px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .logout-link i {
+    margin-right: 6px;
+  }
+
+  .logout-link:hover {
+    background-color: #e53935;
+    transform: translateY(-2px);
+  }
+
+  @media (max-width: 768px) {
+    .admin-navbar {
+      flex-direction: column;
+      text-align: center;
+      padding: 15px;
+    }
+
+    .left {
+      margin-bottom: 10px;
+    }
+
+    .center ul {
+      flex-direction: column;
+      gap: 10px;
+      margin: 10px 0;
+    }
+
+    .center a {
+      justify-content: center;
+    }
+
+    .right {
+      margin-top: 10px;
+    }
+  }
